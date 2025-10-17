@@ -1,103 +1,119 @@
+"use client";
+
+import { Baby, Heart, Stethoscope } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
+import BottomNav from "@/components/BottomNav";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const { user } = useAuth();
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  return (
+    <main className="font-sans max-w-md mx-auto min-h-screen px-4 pt-10 pb-24 flex flex-col gap-6">
+      {/* Greeting */}
+      <header className="flex items-center gap-3">
+        <Image
+          src="/window.svg"
+          alt="Avatar"
+          width={56}
+          height={56}
+          className="rounded-full object-cover"
+        />
+        <div>
+          <h1 className="text-lg font-semibold leading-tight">
+            Selamat Pagi {user?.email ?? "Bunda"}!{" "}
+            <span className="inline-block">👋🏻</span>
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            Bagaimana Kabar Hari Ini?
+          </p>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+      </header>
+
+      {/* Pregnancy Status Card */}
+      <section className="rounded-xl border shadow-sm p-4 flex flex-col gap-4">
+        <div className="flex items-center justify-between">
+          <h2 className="font-medium">Status Kehamilan</h2>
+          <Baby className="text-violet-600" />
+        </div>
+        <div className="space-y-2">
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-muted-foreground">Usia Kehamilan</span>
+            <span className="font-medium">
+              {/* Future: calculate from profile */}
+              Belum diisi
+            </span>
+          </div>
+          <div className="h-2 rounded-full bg-muted overflow-hidden">
+            <div className="h-full bg-violet-600" style={{ width: "60%" }} />
+          </div>
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-muted-foreground">Trimester</span>
+            <span className="font-medium">-</span>
+          </div>
+        </div>
+      </section>
+
+      {/* Consult CTA */}
+      <section className="rounded-xl bg-gradient-to-br from-violet-400/40 to-violet-600/30 p-4 flex flex-col gap-4">
+        <div className="flex items-center gap-2">
+          <Stethoscope className="text-violet-700" />
+          <h2 className="font-medium">Mediva Consult AI</h2>
+        </div>
+        <p className="text-sm leading-relaxed text-muted-foreground">
+          Dapatkan saran medis terkait obat dan gejala penyakit berdasarkan
+          kondisi kehamilan Anda
+        </p>
+        <Link
+          href={user ? "/consult" : "/login"}
+          className="mx-auto w-full max-w-xs rounded-full bg-violet-600 py-2 text-center text-sm font-medium text-white shadow"
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          {user ? "Mulai Sesi Konsultasi" : "Masuk untuk Konsultasi"}
+        </Link>
+      </section>
+
+      {/* Medicine Recommendations */}
+      <section className="rounded-xl border shadow-sm p-4 flex flex-col gap-4">
+        <div className="flex items-center justify-between">
+          <h2 className="font-medium">Rekomendasi Obat</h2>
+          <Heart className="text-violet-600" />
+        </div>
+        <p className="text-sm text-muted-foreground">
+          Obat yang aman sesuai kondisi kehamilan Anda
+        </p>
+        <ul className="flex flex-col divide-y">
+          {[
+            {
+              name: "Paracetamol",
+              desc: "Pereda Nyeri dan Demam",
+              img: "/vercel.svg",
+            },
+            {
+              name: "Phenylephrine",
+              desc: "Obat Hidung Tersumbat",
+              img: "/vercel.svg",
+            },
+          ].map((m) => (
+            <li key={m.name} className="py-3 flex items-center gap-3">
+              <Image
+                src={m.img}
+                alt={m.name}
+                width={40}
+                height={40}
+                className="rounded"
+              />
+              <div className="flex-1">
+                <p className="text-sm font-medium leading-tight">{m.name}</p>
+                <p className="text-xs text-muted-foreground">{m.desc}</p>
+              </div>
+              <span className="text-muted-foreground">&gt;</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <BottomNav active="home" />
+    </main>
   );
 }

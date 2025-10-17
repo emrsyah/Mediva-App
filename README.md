@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mediva AI
 
-## Getting Started
+Self-medication guidance for pregnant women, combining cutting-edge AI with responsible human oversight.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## ✨ Why Mediva AI?
+Pregnancy often comes with new symptoms and questions about which medicines are safe. Mediva AI delivers on-demand, evidence-based advice while keeping the expectant mother at the center of every decision.
+
+## 🏗️ Architecture at a Glance
+| Layer | Technology | Purpose |
+|-------|------------|---------|
+| Personal Memory | **SuperMemory** | Stores user context, preferences, and medical history in a privacy-focused layer. |
+| Orchestration | **AI SDK** | Coordinates multiple medical agents (LLMs, tools, fallback flows). |
+| Knowledge Base | **Supabase pgvector** | Vector-searchable drug & contraindication database. |
+| Safety Net | **Human-in-the-Loop** | Pharmacists & OB-GYNs verify or override AI suggestions when confidence is low. |
+
+## 🔑 Core Features
+- **Personalized drug safety checks** for each pregnancy stage.
+- **Conversational chat interface** built with Next.js & Vercel Edge runtime.
+- **Automatic escalation** to licensed professionals on ambiguous cases.
+- **Audit trail** of AI & human decisions for transparency.
+
+## 🚀 Getting Started
+1. **Install dependencies**
+   ```bash
+   pnpm install
+   ```
+2. **Set environment variables** (see `.env.example`).
+3. **Run development server**
+   ```bash
+   pnpm dev
+   ```
+4. Open <http://localhost:3000> and start chatting.
+
+## 📂 Project Structure (excerpt)
+```
+src/
+  app/            # Next.js app router
+  components/     # Reusable UI & AI elements
+  ai/             # Agent logic & tools
+  lib/            # Supabase clients & helpers
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ❤️ Contributing
+We welcome pull requests from healthcare professionals and developers alike. Please open an issue first to discuss your idea.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📄 License
+Distributed under the MIT License. See `LICENSE` for more information.
