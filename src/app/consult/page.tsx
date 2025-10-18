@@ -203,6 +203,32 @@ export default function MedivaConsult() {
                       return null;
                   }
                 })()
+              ) : p.type === "tool-writeMemory" ? (
+                (() => {
+                  const mem = p.output as { stored: boolean; content: string };
+                  switch (p.state) {
+                    case "input-available":
+                      return (
+                        <Shimmer key={`${m.id}-tool-writeMemory-${Date.now()}`}>
+                          ✍️ Menambahkan Memori...
+                        </Shimmer>
+                      );
+                    case "output-available":
+                      return (
+                        <span className="text-sm mb-2 text-green-600">
+                          ✅ Memori ditambahkan: "{mem.content}"
+                        </span>
+                      );
+                    case "output-error":
+                      return (
+                        <span className="text-sm text-red-600">
+                          Gagal menambahkan memori: {p.errorText}
+                        </span>
+                      );
+                    default:
+                      return null;
+                  }
+                })()
               ) : null,
             )}
           </div>

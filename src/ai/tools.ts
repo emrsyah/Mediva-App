@@ -3,6 +3,8 @@ import { z } from "zod";
 import voyageClient from "@/lib/voyage";
 import { createClient as createSupabaseServerClient } from "@/utils/supabase/server";
 import { generateFinalRecommendation } from "./utils";
+import { addMemory } from "./memoryStore";
+import Supermemory from "supermemory";
 
 // Define the type for drug data
 export type DrugData = {
@@ -111,7 +113,42 @@ export const confirmDrugConsumptionTool = createTool({
   },
 });
 
+// Create a single Supermemory client instance (reuse across tool calls)
+const supermemoryClient = new Supermemory({
+  apiKey: process.env.SUPERMEMORY_API_KEY,
+});
+
+// Tool to write a memory (dummy with 3s delay)
+export const writeMemoryTool = createTool({
+  description: "Tambahkan memori penting untuk referensi di masa depan. Contohnya ketika user mengeluhkan gejala tertentu misalkan ketika dia bilang dia pusing atau mual-mual, atau memberikan informasi penting lainnya.",
+  inputSchema: z.object({
+    content: z.string().describe("Konten memori untuk ditambahkan"),
+  }),
+  execute: async ({ content }: { content: string }) => {
+    // Dummy delay to simulate async storage
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+
+    // Persist to Supermemory (best effort)
+    try {
+      await supermemoryClient.memories.add({
+        content,
+        containerTag: "user-memory",
+      });
+    } catch (error) {
+      console.error("Failed to save memory to Supermemory", error);
+    }
+
+    // Local in-memory fallback
+    addMemory(content);
+    return {
+      stored: true,
+      content,
+    };
+  },
+});
+
 export const tools = {
   displayDrugRisk: drugRiskTool,
   confirmDrugConsumption: confirmDrugConsumptionTool,
+  writeMemory: writeMemoryTool,
 };
